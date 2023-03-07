@@ -22,7 +22,7 @@ public class UserDto {
 
     @Pattern(message = "username should have atmost 12 characters only",
             regexp = "^[a-zA-Z0-9]{8,12}$")
-    
+
     private String username;
 
     // The regex specifies that the password can contain characters from a to z, A to Z and 0-9 only,
