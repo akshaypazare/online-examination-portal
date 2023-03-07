@@ -20,11 +20,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService; //loadUserByUsername
 
     @Bean // whenever a method has to create an object and that object should be managed by SpringBoot we use @Bean
     PasswordEncoder passwordEncoder(){   //To encode the password in 64 encoding format
         return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    @Bean //we are creating the bean of authenticationManager and it should be managed by spring boot
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+        //we have created the bean of AuthenticationManager to authenticate the username and password for signIn
     }
 
     @Override
@@ -53,10 +60,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //this method will help us to deal with database
     }
 
-    @Override
-    @Bean //we are creating the bean of authenticationManager and it should be managed by spring boot
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-   //we have created the bean of AuthenticationManager to authenticate the username and password for signIn
-    }
+
 }

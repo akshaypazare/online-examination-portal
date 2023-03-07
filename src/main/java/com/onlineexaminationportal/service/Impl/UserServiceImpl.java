@@ -9,6 +9,7 @@ import com.onlineexaminationportal.service.UserService;
 import com.onlineexaminationportal.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -33,8 +34,8 @@ public class UserServiceImpl implements UserService {
         //we can add this by using generate constructor or we can add this attribute and this statement to do dependancy injection manually
     }
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder; // to encode the password which we are using for signup
+    @Autowired
+    private PasswordEncoder passwordEncoder; // to encode the password which we are using for signup
 
 
 //To Register a new user
@@ -42,17 +43,21 @@ public class UserServiceImpl implements UserService {
     public User registerUser(UserDto userDto) {
 
         // create user object
-//        User user = new User();
-//        user.setName(userDto.getName());
-//        user.setUsername(userDto.getUsername());
-//        user.setEmail(userDto.getEmail());
-//        user.setPassword(userDto.getPassword());      //(passwordEncoder.encode(UserDto.getPassword()));
+        User user = new User();
+        user.setName(userDto.getName());
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        User user = mapToEntity(userDto);
+//        User user = mapToEntity(userDto);
 
         //we need to set the role for new user, whether the user will be USER or ADMIN etc.
-        Role roles = roleRepository.findByName("ROLE_ADMIN").get();   //we assigning this user as ADMIN, it will find that record and put that into and object
-        user.setRoles(Collections.singleton(roles)); //now convert that object into set
+        Role role = roleRepository.findByName("ROLE_ADMIN").get();   //we assigning this user as ADMIN, it will find that record and put that into and object
+
+//        Role role = new Role();  //use this for filling the roles in role table
+//        role.setName("ROLE_ADMIN");
+
+          user.setRoles(Collections.singleton(role)); //now convert that object into set
         //Collections class has the singleton() method which will return the immutable set containing specified object
 
         userRepository.save(user);

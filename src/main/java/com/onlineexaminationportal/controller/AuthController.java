@@ -40,15 +40,12 @@ public class AuthController {   //this controller will help us in registering a 
     //Now go to the SecurityConfig file and create the bean of AuthenticationManager by overriding the method authenticationManager() which is presnet in WebSecurityConfigurerAdapter
 
 
-//    @Autowired
-//    private JwtTokenProvider tokenProvider;//20-1-23
 
 
 
 
 //To Register new user or signup
     //localhost:8080/OEP/auth/signup
-
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult) {
 
@@ -74,57 +71,20 @@ public class AuthController {   //this controller will help us in registering a 
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
     }
 
-    //Get User by username
-    //localhost:8080/OEP/auth/akshay23
-    @GetMapping("/{username}") //5-3-23
-    public ResponseEntity<UserDto> getUserByUserName(@PathVariable("username") String username) {
-        //whenever you want to return a status code, the method return type should be ResponseEntity<>
-        return ResponseEntity.ok(userService.getUserByUserName(username));
-    }
 
-//Get all user
-    //localhost:8080/OEP/auth/GetAll
-@PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/GetAll")
-    public List<UserDto> getAllUsers(){
-        List<UserDto> userDtos = userService.getAllUsers();
-        return userDtos;
-    }
-
-//update User using username
-    //http://localhost:8080/OEP/auth/Update/akshay23
-@PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/Update/{username}")
-    public ResponseEntity<UserDto> updateUserByUserName(@RequestBody UserDto userDto, @PathVariable("username") String username) { //username is provided by url, userDto is supplied by JSON
-        UserDto updatedUser = userService.updateUser(userDto, username);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);    //if you want to supply status and parameter, we have to create object
-    }
-
-//Deleting user using username
-    //localhost:8080/OEP/auth/Delete/akshay23
-@PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/Delete/{username}")
-    public ResponseEntity<String> deleteUserByUsername(@PathVariable("username") String username) {
-
-        userService.deleteUser(username);
-        return new ResponseEntity<>("User Deleted Successfully.", HttpStatus.OK);  //if we are retuning more than one parameter in the ResponseEntity then we will have to use new keyword
-
-    }
-
-
-//    7-3-23
-
-
+//To SignIn
+    //localhost:8080/OEP/auth/signin
     @PostMapping("/signin")   // for login
     public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword())
         );
-        //we are creating the token and supplying the username and password in the form of token
+        //we are creating the token and supplying the username and password
 //if the credentials are correct it will move further otherwise it will stop here and return the message Bad credentials to postman
 
-        SecurityContextHolder.getContext ().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         //it will set Authentication token
+        //this token will go to the AuthenticationManagerBuilder to do further authentication
 
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK );
     }
