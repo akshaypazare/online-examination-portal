@@ -1,5 +1,5 @@
 package com.onlineexaminationportal.dto;
-
+//jwt
 public class JWTAuthResponse {
     private String accessToken;
     private String tokenType = "Bearer";
