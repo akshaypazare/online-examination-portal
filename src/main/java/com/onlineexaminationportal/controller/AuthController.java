@@ -1,11 +1,13 @@
 package com.onlineexaminationportal.controller;
 
 
+import com.onlineexaminationportal.dto.JWTAuthResponse;
 import com.onlineexaminationportal.dto.LoginDto;
 import com.onlineexaminationportal.dto.UserDto;
 import com.onlineexaminationportal.entity.User;
 import com.onlineexaminationportal.repository.RoleRepository;
 import com.onlineexaminationportal.repository.UserRepository;
+import com.onlineexaminationportal.security.JwtTokenProvider;
 import com.onlineexaminationportal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,6 +50,10 @@ public class AuthController {   //this controller will help us in registering a 
 
 //To Register new user or signup
     //localhost:8080/OEP/auth/signup
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;    //to generate token for authentication
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult) {
@@ -116,7 +122,7 @@ public class AuthController {   //this controller will help us in registering a 
 
 
     @PostMapping("/signin")   // for login
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
+    public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword())
         );
@@ -126,6 +132,9 @@ public class AuthController {   //this controller will help us in registering a 
         SecurityContextHolder.getContext ().setAuthentication(authentication);
         //it will set Authentication token
 
-        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK );
+        //get token from tokenProvider
+        String token = tokenProvider.generateToken(authentication);
+
+        return ResponseEntity.ok(new JWTAuthResponse(token));
     }
 }
