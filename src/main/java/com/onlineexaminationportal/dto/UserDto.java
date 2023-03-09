@@ -20,7 +20,7 @@ public class UserDto {
     @Size(min = 6, max = 20,
     message = "username must be in between 6-20 characters")
 
-    @Pattern(message = "username should have atmost 12 characters only",
+    @Pattern(message = "username should have in between 2-15 characters only",
             regexp = "^[a-zA-Z0-9]{8,12}$")
 
     private String username;
