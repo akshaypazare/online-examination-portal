@@ -50,7 +50,7 @@ public class UserController {
     public ResponseEntity<String> deleteUserByUsername(@PathVariable("username") String username) {
 
         userService.deleteUser(username);
-        return new ResponseEntity<>("User Deleted Successfully.", HttpStatus.OK);  //if we are retuning more than one parameter in the ResponseEntity then we will have to use new keyword
+        return new ResponseEntity<>("User Deleted Successfully.", HttpStatus.OK);  //if we are returning more than one parameter in the ResponseEntity then we will have to use new keyword
 
     }
 

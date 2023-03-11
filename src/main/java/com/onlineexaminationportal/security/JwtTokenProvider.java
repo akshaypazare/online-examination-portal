@@ -16,7 +16,7 @@ public class JwtTokenProvider {
     @Value("${app.jwt-expiration-milliseconds}")
     private int jwtExpirationInMs;
 
-    // generate token
+    // generate token and return it back to the client (postman)
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         Date currentDate = new Date();
@@ -31,7 +31,7 @@ public class JwtTokenProvider {
         return token;
     }
 
-    // get username from the token
+    // get username from the token which is provided with second request
     public String getUsernameFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
@@ -40,7 +40,7 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    // validate JWT token
+    // validate JWT token which is provided with second request
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);

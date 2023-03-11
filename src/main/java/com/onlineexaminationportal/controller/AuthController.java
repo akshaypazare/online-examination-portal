@@ -48,14 +48,13 @@ public class AuthController {   //this controller will help us in registering a 
 
 //To Register new user or signup
     //localhost:8080/OEP/auth/signup
-<<<<<<< HEAD
+
 
     @Autowired
     private JwtTokenProvider tokenProvider;    //to generate token for authentication
 
 
-=======
->>>>>>> 3bc4712cdfccdc52295d4f32c0a251b04ff3c77d
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult) {
 

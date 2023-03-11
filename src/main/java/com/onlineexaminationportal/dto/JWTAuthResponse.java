@@ -7,6 +7,8 @@ public class JWTAuthResponse {
     public JWTAuthResponse(String accessToken) {
         this.accessToken = accessToken;
     }
+
+
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
