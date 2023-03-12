@@ -3,6 +3,7 @@ package com.onlineexaminationportal.service.Impl;
 import com.onlineexaminationportal.entity.exam.Quiz;
 import com.onlineexaminationportal.repository.QuizRepository;
 import com.onlineexaminationportal.service.QuizService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,17 @@ public class QuizServiceImpl implements QuizService {
     @Autowired
     QuizRepository quizRepository;
 
+    private ModelMapper mapper;
+
+    public QuizServiceImpl(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
+
     @Override
     public Quiz addQuiz(Quiz quiz) {
         return quizRepository.save(quiz);
     }
+
 
     @Override
     public Quiz updateQuiz(Quiz quiz) {
@@ -41,4 +49,5 @@ public class QuizServiceImpl implements QuizService {
         quizRepository.deleteById(quizId);
 
     }
+
 }

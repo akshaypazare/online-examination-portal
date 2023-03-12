@@ -80,4 +80,45 @@ public class QuestionController {
         questionService.deleteQuestion(questionId);
         return new ResponseEntity<>("Question Deleted Successfully.", HttpStatus.OK);
     }
+
+
+
+
+    //for Evaluating the quiz
+    @PostMapping("/eval-quiz")
+    public ResponseEntity<?> evalQuiz(@RequestBody List<Question> questions){
+        System.out.println(questions);
+        double marksGot = 0;
+        int correctAnswer = 0;
+        int attempted = 0;
+
+        for (Question q : questions ) {
+            //            System.out.println(q.getGivenAnswer());
+
+            //single questions
+            Question question = questionService.getQuestion(q.getQuesId());
+            System.out.println(question);
+            if(question.getAnswer().equals(q.getGivenAnswer())){
+                correctAnswer++;
+
+                double marksSingle = Double.parseDouble(questions.get(0).getQuiz().getMaxMarks())/questions.size();
+                marksGot += marksSingle;
+            }
+
+            if(q.getGivenAnswer() != null){
+                attempted++;
+            }
+
+
+
+        };
+        System.out.println("marksGot");
+        System.out.println(marksGot);
+        System.out.println("correctAnswer");
+        System.out.println(correctAnswer);
+        System.out.println("attempted");
+        System.out.println(attempted);
+
+        return null;
+    }
 }

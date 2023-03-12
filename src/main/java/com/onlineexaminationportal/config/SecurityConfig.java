@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/OEP/auth/**").permitAll()
                 .antMatchers("/Category/**").permitAll()
                 .antMatchers("/Quiz/**").permitAll()
+                .antMatchers("/Question/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

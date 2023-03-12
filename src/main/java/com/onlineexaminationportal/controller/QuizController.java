@@ -35,9 +35,7 @@ public class QuizController {
     @GetMapping("/GetAll")
     public ResponseEntity<?> getQuizzes(){
         Set<Quiz> quizzes = quizService.getQuizzes();
-
         return new ResponseEntity<>(quizzes, HttpStatus.OK);
-
     }
 
     // To get a quiz
@@ -51,7 +49,7 @@ public class QuizController {
     }
 
     @DeleteMapping("/Delete/{qId}")
-    public ResponseEntity<?> deleteQuiz(@PathVariable("qId") Long qId){
+    public ResponseEntity<String> deleteQuiz(@PathVariable("qId") Long qId){
         quizService.deleteQuiz(qId);
         return new ResponseEntity<>("Quiz Deleted Successfully.", HttpStatus.OK);
     }

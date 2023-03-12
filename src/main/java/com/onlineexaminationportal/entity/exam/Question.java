@@ -18,6 +18,17 @@ public class Question {
 
     private String image;
 
+    @Transient
+    private String givenAnswer;
+
+    public String getGivenAnswer() {
+        return givenAnswer;
+    }
+
+    public void setGivenAnswer(String givenAnswer) {
+        this.givenAnswer = givenAnswer;
+    }
+
     private String option1;
     private String option2;
     private String option3;

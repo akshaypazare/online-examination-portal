@@ -15,4 +15,6 @@ public interface QuizService {
     public Quiz getQuiz(Long quizId);
 
     public void deleteQuiz(Long quizId);
+
+
 }
